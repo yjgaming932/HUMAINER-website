@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HumAIner | The Couture of AI Content</title>
+    
+    <!-- Scripts & Libraries -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;800&family=Playfair+Display:ital,wght@0,700;1,700&display=swap" rel="stylesheet">
+
+    <style>
+        :root { --p: #ffffff; --acc: #a78bfa; --bg: #050505; }
+        body { background-color: var(--bg); color: var(--p); font-family: 'Plus Jakarta Sans', sans-serif; overflow-x: hidden; }
+        .serif { font-family: 'Playfair Display', serif; }
+        
+        #transition-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: #8b5cf6; z-index: 9999; transform: translateY(100%);
+        }
+
+        .glass { 
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%); 
+            backdrop-filter: blur(20px); 
+            border: 1px solid rgba(255, 255, 255, 0.15); 
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+        }
+
+        .page-section { display: none; opacity: 0; }
+        .page-section.active { display: block; opacity: 1; }
+
+        .btn-premium {
+            background: linear-gradient(135deg, #8b5cf6 0%, #6366f1 100%);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 0 10px 30px rgba(139, 92, 246, 0.3);
+        }
+        .btn-premium:hover { transform: scale(1.05) translateY(-2px); box-shadow: 0 20px 50px rgba(139, 92, 246, 0.5); }
+
+        .input-field { background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255,255,255,0.1); padding: 1rem; border-radius: 12px; outline: none; transition: 0.3s; width: 100%; }
+        .input-field:focus { border-color: #8b5cf6; background: rgba(255,255,255,0.08); }
+        .input-error { border-color: #ef4444 !important; }
+
+        .glow-sphere {
+            position: fixed; width: 600px; height: 600px; background: radial-gradient(circle, rgba(139, 92, 246, 0.15) 0%, transparent 70%);
+            z-index: -1; border-radius: 50%; filter: blur(80px);
+        }
+    </style>
+</head>
+<body>
+
+    <div id="transition-overlay"></div>
+    <div class="glow-sphere" id="glow"></div>
+
+    <!-- NAVIGATION -->
+    <nav class="fixed top-0 w-full z-[100] px-10 py-6 flex justify-between items-center glass border-b border-white/10">
+        <div class="flex items-center gap-3 cursor-pointer group" onclick="navTo('home')">
+            <div class="w-12 h-12 bg-white text-black rounded-full flex items-center justify-center group-hover:rotate-180 transition-transform duration-700 shadow-xl">
+                <i data-lucide="user-check" class="w-6 h-6"></i>
+            </div>
+            <span class="text-3xl font-black italic serif tracking-tighter uppercase">HumAIner</span>
+        </div>
+        
+        <div class="hidden lg:flex gap-12 font-bold text-[11px] uppercase tracking-[0.3em] text-gray-400">
+            <span onclick="navTo('home')" class="hover:text-white cursor-pointer transition-all">Intel</span>
+            <span onclick="navTo('services')" class="hover:text-white cursor-pointer transition-all">Solutions</span>
+            <span onclick="navTo('pricing')" class="hover:text-white cursor-pointer transition-all">Pricing</span>
+            <span onclick="navTo('about')" class="hover:text-white cursor-pointer transition-all">Legacy</span>
+        </div>
+        <div></div> 
+    </nav>
+
+    <!-- CONTENT -->
+    <main class="pt-40 pb-20 px-6 max-w-7xl mx-auto">
+
+        <!-- HOME -->
+        <section id="home" class="page-section active">
+            <div class="grid lg:grid-cols-2 gap-20 items-center">
+                <div class="hero-content">
+                    <h1 class="text-7xl md:text-9xl font-black serif italic leading-[0.9] mb-8">Refining <br><span class="text-indigo-400">Genius.</span></h1>
+                    <p class="text-xl text-gray-300 mb-12 max-w-md leading-relaxed">The premier agency for invisible AI humanization. We don't swap words; we restore rhythms through HumAIner intelligence.</p>
+                    <div class="flex gap-6">
+                        <button onclick="navTo('services')" class="btn-premium px-10 py-5 rounded-full font-black uppercase text-xs">View Methodology</button>
+                    </div>
+                </div>
+                <div class="relative">
+                    <div class="glass p-8 rounded-[40px] relative z-10">
+                        <div class="flex gap-2 mb-6"><div class="w-3 h-3 rounded-full bg-red-500"></div><div class="w-3 h-3 rounded-full bg-yellow-500"></div><div class="w-3 h-3 rounded-full bg-green-500"></div></div>
+                        <textarea id="ai-input" class="w-full h-80 bg-transparent text-white border-none outline-none resize-none text-lg italic" placeholder="Paste robotic AI content here..."></textarea>
+                        <button onclick="openPopup()" class="w-full btn-premium py-6 rounded-3xl font-black uppercase tracking-widest mt-4">Execute Humanization</button>
+                    </div>
+                    <img src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=2564&auto=format&fit=crop" class="absolute -top-10 -right-10 w-64 h-64 rounded-3xl object-cover opacity-60 -z-10 transition-all duration-1000">
+                </div>
+            </div>
+        </section>
+
+        <!-- SERVICES -->
+        <section id="services" class="page-section">
+            <div class="text-center mb-24">
+                <h2 class="text-6xl font-black serif italic mb-6">Bespoke Refinement</h2>
+                <p class="text-white text-xl font-light">Engineered for high-stakes environments.</p>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-10 mb-20">
+                <div class="glass p-12 rounded-[50px] group hover:bg-white hover:text-black transition-all duration-500">
+                    <i data-lucide="graduation-cap" class="w-12 h-12 mb-8 text-indigo-400"></i>
+                    <h3 class="text-3xl font-bold mb-6 italic serif">Academic Stealth</h3>
+                    <p class="text-lg leading-relaxed mb-8 opacity-90">Deep structural morphing to bypass Turnitin, Originality, and GPTZero with 99.9% consistency.</p>
+                    <img src="https://images.unsplash.com/photo-1434030216411-0b793f4b4173?q=80&w=2070&auto=format&fit=crop" class="w-full h-48 object-cover rounded-3xl mb-4">
+                </div>
+                <div class="glass p-12 rounded-[50px] group hover:bg-white hover:text-black transition-all duration-500">
+                    <i data-lucide="pen-tool" class="w-12 h-12 mb-8 text-pink-400"></i>
+                    <h3 class="text-3xl font-bold mb-6 italic serif">The Editor's Touch</h3>
+                    <p class="text-lg leading-relaxed mb-8 opacity-90">Ghostwriting-grade refinement for authors and high-level bloggers who demand perfection.</p>
+                    <img src="https://images.unsplash.com/photo-1455390582262-044cdead277a?q=80&w=2073&auto=format&fit=crop" class="w-full h-48 object-cover rounded-3xl mb-4">
+                </div>
+                <div class="glass p-12 rounded-[50px] group hover:bg-white hover:text-black transition-all duration-500">
+                    <i data-lucide="briefcase" class="w-12 h-12 mb-8 text-amber-400"></i>
+                    <h3 class="text-3xl font-bold mb-6 italic serif">Executive Sync</h3>
+                    <p class="text-lg leading-relaxed mb-8 opacity-90">Corporate-grade voice mirroring. We clone your personal writing patterns for invisible automation.</p>
+                    <img src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=2070&auto=format&fit=crop" class="w-full h-48 object-cover rounded-3xl mb-4">
+                </div>
+            </div>
+
+            <div class="text-center py-20 px-10 bg-indigo-600/10 border border-indigo-500/20 rounded-[60px] animate-pulse">
+                <h3 class="text-5xl font-black italic mb-10">What are you waiting for?<br>Get your free academic jail free card now!</h3>
+                <button onclick="navTo('pricing')" class="btn-premium px-16 py-8 rounded-full text-xl font-black uppercase">Start My Journey</button>
+            </div>
+        </section>
+
+        <!-- PRICING -->
+        <section id="pricing" class="page-section">
+            <h2 class="text-6xl font-black serif italic text-center mb-20">The Investment</h2>
+            <div class="grid md:grid-cols-2 gap-12 max-w-5xl mx-auto">
+                <div class="glass p-16 rounded-[60px] relative overflow-hidden group">
+                    <h4 class="text-2xl font-bold mb-4 italic">Individual</h4>
+                    <div class="text-7xl font-black mb-12">$29<span class="text-xl font-normal text-gray-500">/mo</span></div>
+                    <ul class="space-y-4 mb-16 text-md">
+                        <li class="flex items-center gap-4 text-white"><i data-lucide="check" class="text-indigo-400 w-5 h-5"></i> 10,000 Words / mo</li>
+                        <li class="flex items-center gap-4 text-white"><i data-lucide="check" class="text-indigo-400 w-5 h-5"></i> Standard Refinery Engine</li>
+                        <li class="flex items-center gap-4 text-white"><i data-lucide="check" class="text-indigo-400 w-5 h-5"></i> Basic API Access</li>
+                        <li class="flex items-center gap-4 text-white"><i data-lucide="check" class="text-indigo-400 w-5 h-5"></i> Browser Extension Access</li>
+                        <li class="flex items-center gap-4 text-white"><i data-lucide="check" class="text-indigo-400 w-5 h-5"></i> Standard Support Queue</li>
+                    </ul>
+                    <button onclick="openCheckout('Individual', 29)" class="w-full py-6 rounded-full border border-white/20 hover:bg-white hover:text-black font-black uppercase transition-all">Select Profile</button>
+                </div>
+                <div class="glass p-16 rounded-[60px] border-indigo-500/50 bg-indigo-500/10">
+                    <div class="bg-indigo-500 text-white text-[10px] font-black px-4 py-1 rounded-full absolute top-8 right-8 uppercase tracking-widest">Most Coveted</div>
+                    <h4 class="text-2xl font-bold mb-4 italic">The Legend</h4>
+                    <div class="text-7xl font-black mb-12">$149<span class="text-xl font-normal text-gray-500">/mo</span></div>
+                    <ul class="space-y-4 mb-16 text-md">
+                        <li class="flex items-center gap-4 text-white"><i data-lucide="zap" class="text-white fill-white w-5 h-5"></i> Unlimited Words</li>
+                        <li class="flex items-center gap-4 text-white"><i data-lucide="zap" class="text-white fill-white w-5 h-5"></i> 24/7 Human Forensic Audit</li>
+                        <li class="flex items-center gap-4 text-white"><i data-lucide="zap" class="text-white fill-white w-5 h-5"></i> Priority v2 Enterprise API</li>
+                        <li class="flex items-center gap-4 text-white"><i data-lucide="zap" class="text-white fill-white w-5 h-5"></i> Personal Style Mirroring</li>
+                        <li class="flex items-center gap-4 text-white"><i data-lucide="zap" class="text-white fill-white w-5 h-5"></i> Bulk Batch Processing</li>
+                        <li class="flex items-center gap-4 text-white"><i data-lucide="zap" class="text-white fill-white w-5 h-5"></i> Dedicated Account Architect</li>
+                    </ul>
+                    <button onclick="openCheckout('Legend', 149)" class="w-full btn-premium py-6 rounded-full font-black uppercase">Claim Access</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- CHECKOUT -->
+        <section id="checkout" class="page-section">
+            <div class="grid lg:grid-cols-2 gap-20">
+                <div>
+                    <h2 class="text-5xl font-black italic serif mb-10">Vault Checkout</h2>
+                    <div class="space-y-8">
+                        <div>
+                            <label class="text-[10px] font-black uppercase tracking-widest text-gray-500 mb-2 block">Email Address</label>
+                            <input type="email" id="check-email" class="input-field" placeholder="client@humainer.com">
+                        </div>
+                        <div>
+                            <label class="text-[10px] font-black uppercase tracking-widest text-gray-500 mb-2 block">Secure Card Number</label>
+                            <input type="text" id="check-card" maxlength="16" class="input-field" placeholder="4444 4444 4444 4444">
+                        </div>
+                        <div class="grid grid-cols-2 gap-6">
+                            <div>
+                                <label class="text-[10px] font-black uppercase tracking-widest text-gray-500 mb-2 block">Expiry</label>
+                                <input type="text" placeholder="MM/YY" class="input-field">
+                            </div>
+                            <div>
+                                <label class="text-[10px] font-black uppercase tracking-widest text-gray-500 mb-2 block">CVC</label>
+                                <input type="text" id="check-cvv" maxlength="3" class="input-field" placeholder="***">
+                            </div>
+                        </div>
+                        <button onclick="processPayment()" class="w-full btn-premium py-6 rounded-full font-black uppercase tracking-widest text-sm">Initialize Membership</button>
+                    </div>
+                </div>
+                <div class="glass p-16 rounded-[60px] h-fit sticky top-40">
+                    <h3 class="text-2xl font-bold mb-10 italic">Summary</h3>
+                    <div class="flex justify-between items-center py-6 border-b border-white/10">
+                        <span class="text-gray-400" id="plan-name">---</span>
+                        <span class="font-bold text-2xl" id="plan-price">$0.00</span>
+                    </div>
+                    <div class="flex justify-between items-center py-10 text-4xl font-black italic">
+                        <span>Total</span>
+                        <span id="plan-total">$0.00</span>
+                    </div>
+                    <div class="flex gap-4 items-center opacity-50">
+                        <i data-lucide="lock" class="w-4 h-4"></i>
+                        <span class="text-[10px] uppercase font-bold tracking-widest">AES-256 Bit Encryption Active</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ABOUT -->
+        <section id="about" class="page-section">
+            <div class="grid lg:grid-cols-2 gap-20 items-center">
+                <img src="https://images.unsplash.com/photo-1497366216548-37526070297c?q=80&w=2069&auto=format&fit=crop" class="rounded-[60px] shadow-2xl">
+                <div>
+                    <h2 class="text-7xl font-black italic serif mb-10 leading-tight">The Agency <br> Legacy.</h2>
+                    <p class="text-xl text-gray-300 leading-relaxed mb-10">HumAIner was founded not to fight AI, but to bridge the gap between machine efficiency and human nuance. We are a collective of linguists, hackers, and editors dedicated to the art of the undetectable. Our framework ensures that digital intelligence never sacrifices the soul of the message.</p>
+                    
+                    <div class="grid grid-cols-2 gap-10">
+                        <div class="glass flex flex-col gap-2 p-6 rounded-3xl">
+                            <i data-lucide="database" class="text-indigo-400 w-8 h-8 mb-2"></i>
+                            <div class="text-4xl font-black">1.2B</div>
+                            <div class="text-[10px] font-bold text-gray-500 uppercase tracking-widest">Words Refined Annually</div>
+                        </div>
+                        <div class="glass flex flex-col gap-2 p-6 rounded-3xl">
+                            <i data-lucide="shield-check" class="text-indigo-400 w-8 h-8 mb-2"></i>
+                            <div class="text-4xl font-black">99.8%</div>
+                            <div class="text-[10px] font-bold text-gray-500 uppercase tracking-widest">Detector Bypass Rate</div>
+                        </div>
+                        <div class="glass flex flex-col gap-2 p-6 rounded-3xl">
+                            <i data-lucide="zap" class="text-indigo-400 w-8 h-8 mb-2"></i>
+                            <div class="text-4xl font-black">15ms</div>
+                            <div class="text-[10px] font-bold text-gray-500 uppercase tracking-widest">Average Processing Latency</div>
+                        </div>
+                        <div class="glass flex flex-col gap-2 p-6 rounded-3xl">
+                            <i data-lucide="star" class="text-indigo-400 w-8 h-8 mb-2"></i>
+                            <div class="text-4xl font-black">4.9/5</div>
+                            <div class="text-[10px] font-bold text-gray-500 uppercase tracking-widest">Client Satisfaction Score</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- IN-WEBSITE MODALS -->
+    
+    <!-- Analysis Results Modal -->
+    <div id="home-popup" class="fixed inset-0 z-[500] hidden items-center justify-center bg-black/90 backdrop-blur-3xl p-6">
+        <div class="glass max-w-xl w-full p-16 rounded-[60px] text-center border-indigo-500/50">
+            <i data-lucide="shield-check" class="w-20 h-20 text-indigo-400 mx-auto mb-10"></i>
+            <h2 class="text-4xl font-black italic mb-6">Patterns Identified.</h2>
+            <p class="text-gray-400 mb-12 leading-relaxed">Our engine has detected mechanical cadence in your HumAIner scan. To bypass forensic analysis, select your refinery path:</p>
+            <div class="flex flex-col gap-4">
+                <button onclick="navTo('services'); closePopup('home-popup');" class="w-full py-6 rounded-3xl bg-white/5 border border-white/10 hover:bg-indigo-500 transition-all font-bold uppercase text-xs">Academic Refinery (Essays/Papers)</button>
+                <button onclick="navTo('services'); closePopup('home-popup');" class="w-full py-6 rounded-3xl bg-white/5 border border-white/10 hover:bg-pink-500 transition-all font-bold uppercase text-xs">Narrative Refinery (Blogs/Creative)</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Payment Success Modal -->
+    <div id="success-modal" class="fixed inset-0 z-[600] hidden items-center justify-center bg-black/95 backdrop-blur-xl p-6">
+        <div class="glass max-w-lg w-full p-16 rounded-[60px] text-center border-green-500/50">
+            <div class="w-24 h-24 bg-green-500/20 rounded-full flex items-center justify-center mx-auto mb-8 animate-bounce">
+                <i data-lucide="check-circle" class="text-green-500 w-12 h-12"></i>
+            </div>
+            <h2 class="text-4xl font-black italic mb-6">Vault Secured.</h2>
+            <p class="text-gray-400 mb-12 leading-relaxed">Payment successful. Your HumAIner membership is now active. Access to the refinery has been granted.</p>
+            <button onclick="location.reload()" class="w-full btn-premium py-6 rounded-full font-black uppercase">Enter Dashboard</button>
+        </div>
+    </div>
+
+    <!-- Payment Error Modal (NEW: REPLACED BROWSER ALERT) -->
+    <div id="error-modal" class="fixed inset-0 z-[600] hidden items-center justify-center bg-black/95 backdrop-blur-xl p-6">
+        <div class="glass max-w-lg w-full p-16 rounded-[60px] text-center border-red-500/50">
+            <div class="w-24 h-24 bg-red-500/20 rounded-full flex items-center justify-center mx-auto mb-8">
+                <i data-lucide="alert-triangle" class="text-red-500 w-12 h-12"></i>
+            </div>
+            <h2 class="text-4xl font-black italic mb-6">Vault Denied.</h2>
+            <p class="text-gray-400 mb-12 leading-relaxed">Access denied. Please verify your billing credentials and ensure all fields are correctly formatted.</p>
+            <button onclick="closePopup('error-modal')" class="w-full bg-white/10 py-6 rounded-full font-black uppercase hover:bg-white/20 transition-all">Retry Credentials</button>
+        </div>
+    </div>
+
+    <script>
+        lucide.createIcons();
+
+        function navTo(pageId) {
+            const overlay = document.getElementById('transition-overlay');
+            gsap.to(overlay, { 
+                y: "0%", duration: 0.5, ease: "expo.inOut", 
+                onComplete: () => {
+                    document.querySelectorAll('.page-section').forEach(p => p.classList.remove('active'));
+                    document.getElementById(pageId).classList.add('active');
+                    window.scrollTo(0,0);
+                    gsap.to(overlay, { y: "-100%", duration: 0.5, ease: "expo.inOut", delay: 0.1 });
+                    gsap.from(`#${pageId}`, { y: 100, opacity: 0, duration: 0.8, ease: "power4.out" });
+                } 
+            });
+        }
+
+        function openPopup() {
+            if(!document.getElementById('ai-input').value) return; 
+            document.getElementById('home-popup').style.display = 'flex';
+        }
+        
+        function closePopup(id) { document.getElementById(id).style.display = 'none'; }
+
+        function openCheckout(name, price) {
+            document.getElementById('plan-name').innerText = name;
+            document.getElementById('plan-price').innerText = `$${price}.00`;
+            document.getElementById('plan-total').innerText = `$${price}.00`;
+            navTo('checkout');
+        }
+
+        function processPayment() {
+            const email = document.getElementById('check-email');
+            const card = document.getElementById('check-card');
+            const cvv = document.getElementById('check-cvv');
+            let hasError = false;
+
+            [email, card, cvv].forEach(el => el.classList.remove('input-error'));
+
+            if(!email.value.includes('@')) { email.classList.add('input-error'); hasError = true; }
+            if(card.value.length < 16) { card.classList.add('input-error'); hasError = true; }
+            if(cvv.value.length < 3) { cvv.classList.add('input-error'); hasError = true; }
+
+            if(hasError) {
+                // TRIGGER IN-WEBSITE ERROR MODAL INSTEAD OF BROWSER ALERT
+                document.getElementById('error-modal').style.display = 'flex';
+                lucide.createIcons();
+            } else {
+                document.getElementById('success-modal').style.display = 'flex';
+                lucide.createIcons();
+            }
+        }
+
+        document.addEventListener('mousemove', (e) => {
+            gsap.to('#glow', { 
+                x: e.clientX - 300, 
+                y: e.clientY - 300, 
+                duration: 2, 
+                ease: "power2.out" 
+            });
+        });
+    </script>
+</body>
+</html>
